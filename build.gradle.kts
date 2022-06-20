@@ -1,6 +1,11 @@
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
 plugins {
     id("java-gradle-plugin")
-    kotlin("jvm") version "1.6.10"
+    kotlin("jvm") version "1.7.0"
 }
 
 group = "de.mlessmann.gradle"
@@ -28,9 +33,9 @@ val functionalTestImpl = configurations.getByName("functionalTestImplementation"
     .extendsFrom(configurations.getByName("testImplementation"))
 
 dependencies {
-    compileOnly(kotlin("gradle-plugin", "1.6.10"))
+    compileOnly(kotlin("gradle-plugin", "1.7.0"))
 
-    implementation(kotlin("stdlib", "1.6.10"))
+    implementation(kotlin("stdlib", "1.7.0"))
     implementation(gradleApi())
 
     testImplementation(gradleTestKit())
