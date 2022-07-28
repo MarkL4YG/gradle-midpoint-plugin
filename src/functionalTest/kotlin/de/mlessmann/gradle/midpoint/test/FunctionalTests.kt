@@ -16,6 +16,24 @@ class FunctionalTests {
     lateinit var testProjectDir: File
 
     @Test
+    fun testTransformXMLLegacy() {
+        val gradleProjectDir = setupFixture("passes_transformXMLLegacy")
+        val result = execGradle(gradleProjectDir, "transformXML")
+
+        val outputDir = File(gradleProjectDir, "build/output")
+        val expectedDir = File(gradleProjectDir, "expected")
+        val templates = listOf(*expectedDir.listFiles()!!)
+        templates.forEach { templateFile ->
+            val challenger = File(outputDir, templateFile.name)
+            assertThat(challenger, `is`(aFile()))
+
+            val template = templateFile.inputStream().use { it.reader().buffered().readText() }
+            val response = challenger.inputStream().use { it.reader().buffered().readText() }
+            assertThat(response, equalTo(template))
+        }
+    }
+
+    @Test
     fun testTransformXML() {
         val gradleProjectDir = setupFixture("passes_transformXML")
         val result = execGradle(gradleProjectDir, "transformXML")
